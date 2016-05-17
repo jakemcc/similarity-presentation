@@ -1,6 +1,7 @@
 (ns similarity.cosine
   (:require [clojure.string :as string]
-            [similarity.core :as s])
+            [similarity.core :as s]
+            [clojure.set :as set])
   (:import java.lang.Math))
 
 (defmacro p [& body]
@@ -15,28 +16,25 @@
        (s/words)
        (frequencies)))
 
-
-(defn term-frequencies
-  [texts]
-  (let [tfs (map term-frequency texts)
-        all-terms (sort (distinct (mapcat keys tfs)))]
-    (for [[text term-frequencies] (map vector texts tfs)]
-      (for [term all-terms]
-        (get term-frequencies term 0)))))
-
 (defn square [x]
   (* x x))
 
 (defn dot-product
   [a b]
-  (reduce + (map * a b)))
+  (let [ks (set/union (set (keys a)) (set (keys b)))]
+    (reduce +
+            (for [k ks]
+              (* (get a k 0)
+                 (get b k 0))))))
 
 (defn cosine-similarity
   "a and b are vectors from tf-idfs. Returns -1 for opposite, 1 for the same."
-  [a b]
-  (/ (dot-product a b)
-     (* (Math/sqrt (reduce + (map square a)))
-        (Math/sqrt (reduce + (map square b))))))
+  [text-a text-b]
+  (let [tf-a (term-frequency text-a)
+        tf-b (term-frequency text-b)]
+    (/ (dot-product tf-a tf-b)
+       (* (Math/sqrt (reduce + (map square (vals tf-a))))
+          (Math/sqrt (reduce + (map square (vals tf-b))))))))
 
 ;; TODO: I was trying to do a not words split (look at pairs) but was getting an exception.
 ;; TODO: implementing idf part of this doesn't work well with these examples.
