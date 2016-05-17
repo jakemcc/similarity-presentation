@@ -4,12 +4,6 @@
             [clojure.set :as set])
   (:import java.lang.Math))
 
-(defmacro p [& body]
-  `(let [x# ~@body]
-     (println (str "dbg: " (quote ~@body) "=" x#))
-     x#)
-  )
-
 ;; "raw" term frequency (no adjustments)
 (defn term-frequency [text]
   (->> text
@@ -21,7 +15,8 @@
 
 (defn dot-product
   [a b]
-  (let [ks (set/union (set (keys a)) (set (keys b)))]
+  (let [ks (set/union (set (keys a))
+                      (set (keys b)))]
     (reduce +
             (for [k ks]
               (* (get a k 0)
@@ -37,7 +32,6 @@
           (Math/sqrt (reduce + (map square (vals tf-b))))))))
 
 ;; TODO: I was trying to do a not words split (look at pairs) but was getting an exception.
-;; TODO: implementing idf part of this doesn't work well with these examples.
 ;; TODO: try scaling TF by max frequency in document
 
 (comment

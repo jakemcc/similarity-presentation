@@ -6,3 +6,8 @@
 
 (defn words [s]
   (string/split s #"\s+"))
+
+(defmacro p [& body]
+  `(let [x# ~@body]
+     (println (str "dbg: " (quote ~@body) "=" x#))
+     x#))
