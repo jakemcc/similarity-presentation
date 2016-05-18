@@ -14,7 +14,7 @@ Republished content isn't always exactly the same.
 
 # Approaches
 
-# Approaches : Equality
+# Approaches : Equality or Checksums
 
 Clearly works when strings are exactly the same. Fails otherwise.
 
@@ -85,6 +85,57 @@ You've transformed your documents into vectors. Now take the cosine similarity
   whole corpus every time
 - Need to store vectorized form of each document
 - Have to compare each document to all other documents (n * n)
+
+
+# Goals of new approach
+
+1. New documents don't require recalculation of previous work (so no idf)
+2. Store less data (no tf-idf per document)
+3. Don't need to compare each document to all other documents
+
+# Goal 1: No recalulation
+
+- [Locality Senstive Hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing) is a type of hashing
+  where similar items hash to nearly the same value.
+- Can think of it as maximizing collisions.
+- [SimHash](http://www.wwwconference.org/www2007/papers/paper215.pdf) is one specific LSH.
+- Just storing a hash actuall solves *Goal 2: Store less data* as well.
+
+# SimHash
+
+- Created by Moses Charikar -
+  [Similarity estimation techniques from rounding algorithrms](https://dl.acm.org/citation.cfm?doid=509907.509965)
+- Shown to be useful for near-duplicate detection
+  [Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+
+# SimHash Algorithm (as applied to articles)
+
+1. Create a `f` elements sized vector initialzed to all `0`
+1. Break article into set of features
+1. Hash each feature into `f` bit sized value
+1. For each hash: 
+   if bit `i` >= 0: then vector[i]++, otherwise vector[i]--
+1. Iterate elements in vector. if vector[i] >= 0, final hash bit `i`
+   is `1`; otherwise bit `i` is `0`
+
+# Comparing SimHashes
+
+1. xor two f-bit simhashes together
+1. Count number of `1` result from above step.
+1. Divide by number of bits, `f` to get dissimilarity
+1. 1.0 - dissimilarity = similarity
+
+# Example
+
+10 bit simhashes
+```
+1001101101 xor
+1001101011
+----------
+0000000110
+
+1 - (2 / 10) = 0.80 similar
+```
 
 
 # Simhash
