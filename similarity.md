@@ -1,3 +1,5 @@
+
+
 # Similarity
 
 # Motivation
@@ -85,3 +87,6 @@ You've transformed your documents into vectors. Now take the cosine similarity
 - Have to compare each document to all other documents (n * n)
 
 
+# Simhash
+
+http://www.wwwconference.org/www2007/papers/paper215.pdf
