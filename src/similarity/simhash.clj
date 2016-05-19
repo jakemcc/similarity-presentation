@@ -116,6 +116,7 @@
   {:pre [(= (count bits-a) (count bits-b))
          (every? (fn [b] (or (= b 0) (= b 1))) bits-a)
          (every? (fn [b] (or (= b 0) (= b 1))) bits-b)]}
+
   (let [xor (fn [b1 b2] (if (not= b1 b2) 1 0))]
     (- 1.0 (/ (count (filter pos? (map xor bits-a bits-b)))
               (count bits-a)))))
@@ -125,10 +126,11 @@
   ;; nearly similar
   (similarity [1 1 1 0 1 0 0 0 1 0]
               [1 1 1 0 1 0 0 0 1 1])
-
+  ;; 0.9
   ;; opposites
   (similarity [1 1 1 0 1 0 0 0 1 0]
               [0 0 0 1 0 1 1 1 0 1])
+  ;; 0.0
 
   )
 
@@ -204,10 +206,12 @@
 
   (text-similarity "The quick brown fox jumps over the lazy dog"
                    "The quick brown wolf jumps over the lazy dog")
+  ;; 0.859375
 
 
   (text-similarity "The clown eats bacon"
                    "The bacon eats clown")
+  ;;  1.0
 
 
 
@@ -272,9 +276,11 @@
 
   (text-similarity-n-grams "The quick brown fox jumps over the lazy dog"
                            "The quick brown wolf jumps over the lazy dog")
+  ;; 0.765625
 
   (text-similarity-n-grams "The clown eats bacon"
                            "The bacon eats clown")
+  ;; 0.5
 
 
 
@@ -349,19 +355,22 @@
 (comment
   (image-similarity "images/jake-glasses-fence.png"
                     "images/jake-glasses-fence.png")
+  ;; 1.0
 
   (image-similarity "images/jake-glasses-fence.png"
                     "images/jake-glasses-fence-larger.png")
+  ;; 1.0
 
-  
-  
+
+
   (image-similarity "images/jake-glasses-fence-fixed.png"
                     "images/jake-glasses-fence.png")
-  
+  ;; 0.953125
 
   (image-similarity "images/jake-glasses-fence-fixed.png"
-                    "images/water.jpg")  
-  
+                    "images/water.jpg")
+  ;; 0.65625
+
 
   )
 
@@ -518,7 +527,7 @@
   (count text2) ;; 771
 
   (jaccard/text-similarity text1 text2)
-  (cosine/text-similarity text1 text2)
-  (text-similarity text1 text2)
-  (text-similarity-n-grams text1 text2)
+  (cosine/text-similarity text1 text2) ;; 0.989507888007304
+  (text-similarity text1 text2) ;; 0.953125
+  (text-similarity-n-grams text1 text2) ;; 0.921875
   )
