@@ -1,26 +1,44 @@
+title: Similarity
+author:
+  name: Jake McCrary
+  twitter: jakemcc
+  url: https://jakemccrary.com
+  email: jake@jakemccrary.com
+<!-- style: basic-style.css -->
+controls: false
+output: presentation.html
 
+---
 
 # Similarity
 
+---
+
 # Motivation
 
-The same content gets republished across different web properties.
+---
 
-Lumanu doesn't want to show the same dog story twenty times on the dashboard.
+### Motivation
 
-Google News doesn't want to show the same story multiple times.
+The web is highly repetitive.
 
-Republished content isn't always exactly the same.
+---
 
 # Approaches
 
-# Approaches : Equality or Checksums
+---
+
+### Approaches : Equality or Checksums
 
 Clearly works when strings are exactly the same. Fails otherwise.
 
 ```clojure
-(= "The quick dog jumps over the lazy fox" "The quick dog jumps over the lazy fox")
+(= "The quick dog jumps over the lazy fox"
+   "The quick dog jumps over the lazy fox")
+;;=> true
 ```
+
+---
 
 # Approaches : Jaccard index 
 
@@ -30,6 +48,7 @@ Tells you the similarity between two sets.
 
 Need to make text into sets.
 
+---
 
 # Approaches : Cosine Similarity
 
@@ -40,7 +59,11 @@ Need to make text into sets.
 Need to transform your documents into a vector of weights. One way of
 doing this is tf-idf (term frequency * inverse document frequency).
 
+---
+
 # Term Frequency
+
+---
 
 # Term Frequency : Most basic form
 
@@ -49,6 +72,8 @@ count of each word in a document.
 ```clojure
 (frequency (words text))
 ```
+
+---
 
 # Term Frequency : Less basic
 
@@ -59,6 +84,8 @@ Adjust by max frequency in document. Adjusts for document length.
       max-f (apply max (vals tfs)]
   (update-vs tfs (fn [x] (+ 0.5 (* 0.5 (/ x max-f)))))))
 ```
+
+---
 
 # Inverse Document Frequency
 
@@ -71,13 +98,19 @@ Discounts terms that appear in many of the documents.
                               texts)))))
 ```
 
+---
+
 # Term frequency-Inverse document frequency
 
 Multiply the term frequency by the inverse document frequency for a term.
 
+---
+
 # Approaches : Cosine Similarity
 
 You've transformed your documents into vectors. Now take the cosine similarity 
+
+---
 
 # Cosine Similarity : Downsides
 
@@ -86,12 +119,15 @@ You've transformed your documents into vectors. Now take the cosine similarity
 - Need to store vectorized form of each document
 - Have to compare each document to all other documents (n * n)
 
+---
 
 # Goals of new approach
 
 1. New documents don't require recalculation of previous work (so no idf)
 2. Store less data (no tf-idf per document)
 3. Don't compare each document to all other documents
+
+---
 
 # Goal 1: No recalulation
 
@@ -101,6 +137,8 @@ You've transformed your documents into vectors. Now take the cosine similarity
 - [SimHash](http://www.wwwconference.org/www2007/papers/paper215.pdf) is one specific LSH.
 - Just storing a hash actuall solves *Goal 2: Store less data* as well.
 
+---
+
 # SimHash
 
 - Created by Moses Charikar -
@@ -108,6 +146,8 @@ You've transformed your documents into vectors. Now take the cosine similarity
 - Designed to approximate the cosine distance between vectors!
 - Shown to be useful for near-duplicate detection
   [Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+
+---
 
 # SimHash Algorithm (as applied to articles)
 
@@ -119,12 +159,16 @@ You've transformed your documents into vectors. Now take the cosine similarity
 1. Iterate elements in vector. if vector[i] >= 0, final hash bit `i`
    is `1`; otherwise bit `i` is `0`
 
+---
+
 # Comparing SimHashes
 
 1. xor two f-bit simhashes together
 1. Count number of `1` result from above step.
 1. Divide by number of bits, `f` to get dissimilarity
 1. 1.0 - dissimilarity = similarity
+
+---
 
 # Example
 
@@ -138,6 +182,8 @@ You've transformed your documents into vectors. Now take the cosine similarity
 1 - (2 / 10) = 0.80 similar
 ```
 
+---
+
 # Goal 3: Don't compare single document to all other documents
 
 See
@@ -146,6 +192,8 @@ and [Blog post](http://matpalm.com/resemblance/simhash/)
 
 **Summary**: Take advantage of manipulating bits of hashes and sorting
 to minimize comparisons.
+
+---
 
 # Example
 
