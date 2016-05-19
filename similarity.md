@@ -11,6 +11,7 @@ output: presentation.html
 ---
 
 # Similarity
+## Jake McCrary
 
 ---
 
@@ -51,7 +52,7 @@ The web is highly repetitive.
 
 ### Approaches : Jaccard index 
 
-AKA: **Jaccard similarity coefficent.**
+AKA: **Jaccard similarity coefficient.**
 
 Tells you the similarity between two sets.
 
@@ -126,7 +127,7 @@ Terms that are common across corpus are discounted
 
 ### Vectorizing: tf-idf
 
-Multiply term frequence by inverse document frequency
+Multiply term frequency by inverse document frequency
 
 ---
 
@@ -255,17 +256,17 @@ Multiply term frequence by inverse document frequency
 
 ---
 
-### Goal 1: No recalulation
+### Goal 1: No recalculation
 
 ---
 
-### Goal 1: No recalulation
+### Goal 1: No recalculation
 
 [Locality Sensitive Hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing)
 
 ---
 
-### Goal 1: No recalulation
+### Goal 1: No recalculation
 
 Just storing a hash actually solves **Goal 2: Store less data** as well
 
@@ -277,7 +278,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash
 
-- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
+- [Similarity estimation techniques from rounding algorithms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
   by Moses Charikar
 
 
@@ -285,7 +286,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash
 
-- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
+- [Similarity estimation techniques from rounding algorithms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
   by Moses Charikar
 - Designed to approximate the cosine distance between vectors!
 
@@ -293,7 +294,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash
 
-- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf) by Moses Charikar
+- [Similarity estimation techniques from rounding algorithms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf) by Moses Charikar
 - Designed to approximate the cosine distance between vectors!
 - Shown to be useful for near-duplicate detection
   [Detecting Near-Duplicates for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
@@ -303,20 +304,20 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash Algorithm
 
-1. Create a `f` sized vector initialzed to all `0`
+1. Create a `f` sized vector initialized to all `0`
 
 ---
 
 ### SimHash Algorithm
 
-1. Create a `f` sized vector initialzed to all `0`
+1. Create a `f` sized vector initialized to all `0`
 1. Break article into set of features
 
 ---
 
 ### SimHash Algorithm
 
-1. Create a `f` sized vector initialzed to all `0`
+1. Create a `f` sized vector initialized to all `0`
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
 
@@ -324,7 +325,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash Algorithm
 
-1. Create a `f` sized vector initialzed to all `0`
+1. Create a `f` sized vector initialized to all `0`
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
 1. For each bit in each hash  
@@ -334,7 +335,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ### SimHash Algorithm
 
-1. Create a `f` sized vector initialzed to all `0`
+1. Create a `f` sized vector initialized to all `0`
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
 1. For each bit in each hash  
@@ -428,7 +429,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 to minimize comparisons.
 
 See
-[Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+[Detecting Near-Duplicates for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
 and [blog post](http://matpalm.com/resemblance/simhash/)
 
 ---
