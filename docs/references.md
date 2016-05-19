@@ -10,5 +10,5 @@ Min Hashing
 https://moultano.wordpress.com/2010/01/21/simple-simhashing-3kbzhsxyg4467-6/
 
 Charikar's paper:
-http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pd
+http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf
 
