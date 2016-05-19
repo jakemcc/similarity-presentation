@@ -1,7 +1,8 @@
 (ns similarity.simhash
   (:require [similarity.core :as c]
             [similarity.cosine :as cosine]
-            [similarity.jaccard :as jaccard])
+            [similarity.jaccard :as jaccard]
+            [clojure.string :as string])
   (:import com.google.common.base.Charsets
            com.google.common.hash.Hashing))
 
@@ -69,6 +70,35 @@
                    "The bacon eats clown")
   
   
+  
+  )
+
+
+(defn n-grams
+  [n text]
+  (->> text
+       c/words
+       (partition-all 2 1)
+       (map (partial string/join " "))))
+
+(defn text-similarity-n-grams
+  [text-a text-b]
+  (similarity (simhash (n-grams 2 text-a))
+              (simhash (n-grams 2 text-b))))
+
+(comment
+
+  (text-similarity-n-grams "The quick brown fox jumps over the lazy dog"
+                           "The quick brown wolf jumps over the lazy dog")
+  0.765625
+  0.796875
+
+  (text-similarity-n-grams "The clown eats bacon"
+                           "The bacon eats clown")
+  0.5
+  
+  
+  
   )
 
 
@@ -83,9 +113,9 @@
   (count text2) ;; 771
 
   (jaccard/text-similarity text1 text2) ;; 
-  (cosine/cosine-similarity text1 text2) ;; 0.989507888007304
-  (text-similarity text1 text2) ;; 0.953125
-
+  (cosine/text-similarity text1 text2) ;; 
+  (text-similarity text1 text2) ;; 0.
+  (text-similarity-n-grams text1 text2) ;; 
   )
 
 

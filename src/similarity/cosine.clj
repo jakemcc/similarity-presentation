@@ -22,7 +22,7 @@
               (* (get a k 0)
                  (get b k 0))))))
 
-(defn cosine-similarity
+(defn text-similarity
   "a and b are vectors from tf-idfs. Returns -1 for opposite, 1 for the same."
   [text-a text-b]
   (let [tf-a (term-frequency text-a)
@@ -35,21 +35,17 @@
 ;; TODO: try scaling TF by max frequency in document
 
 (comment
-  (let [[a b] (term-frequencies ["The quick brown dog jumps over the brown fox"
-                                 "The quick brown canine jumps over the brown fox"])]
-    (cosine-similarity a b))
+  (text-similarity "The quick brown dog jumps over the brown fox"
+                   "The quick brown canine jumps over the brown fox")
   
-  0.9090909090909091
-
-  (let [[a b] (term-frequencies ["The brown fox jumps quick over the sly wolf"
-                                 "The quick brown canine jumps over the brown fox"])]
-    (cosine-similarity a b))
+  
+  (text-similarity "The brown fox jumps quick over the sly wolf"
+                   "The quick brown canine jumps over the brown fox")
   
   
   
-  (let [[a b] (term-frequencies ["Julie loves me more than Linda loves me"
-                                 "Jane likes me more than Julie loves me"])]
-    (cosine-similarity a b))
-  0.8215838362577491
-
+  (text-similarity "Julie loves me more than Linda loves me"
+                   "Jane likes me more than Julie loves me")
+  
+  
   )
