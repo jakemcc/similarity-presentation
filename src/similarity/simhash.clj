@@ -246,6 +246,11 @@
 (comment
   (image-similarity "images/jake-glasses-fence.png"
                     "images/jake-glasses-fence.png")
+
+  (image-similarity "images/jake-glasses-fence.png"
+                    "images/jake-glasses-fence-larger.png")
+
+  
   
   (image-similarity "images/jake-glasses-fence-fixed.png"
                     "images/jake-glasses-fence.png")
