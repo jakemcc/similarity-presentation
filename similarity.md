@@ -57,7 +57,7 @@ output: presentation.html
 
 ### Approaches: Cosine Similarity
 
-![](/images/vectors.png)
+![](images/vectors.png)
 
 ---
  
