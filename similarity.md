@@ -17,11 +17,11 @@ output: presentation.html
 
 # Motivation
 
----
+<!-- --- -->
 
-### Motivation
+<!-- ### Motivation -->
 
-The web is highly repetitive.
+<!-- The web is highly repetitive. -->
 
 ---
 
@@ -29,36 +29,23 @@ The web is highly repetitive.
 
 ---
 
-### Approaches
-
-- Equality or checksums
+# Equality or checksums
 
 ---
 
-### Approaches
+<!-- ### Approaches : Jaccard index  -->
 
-- Equality or checksums
-- Cosine Similarity
+<!-- AKA: **Jaccard similarity coefficient.** -->
 
----
+<!-- Tells you the similarity between two sets. -->
 
-### Approaches
+<!-- Need to make text into sets. -->
 
-- Equality or checksums
-- Cosine Similarity
-- ???
+<!-- --- -->
 
----
+# Cosine Similarity
 
-### Approaches : Jaccard index 
-
-AKA: **Jaccard similarity coefficient.**
-
-Tells you the similarity between two sets.
-
-Need to make text into sets.
-
----
+--- 
 
 ### Approaches: Cosine Similarity
 
@@ -68,6 +55,12 @@ Need to make text into sets.
 
 ---
 
+### Approaches: Cosine Similarity
+
+![](/images/vectors.png)
+
+---
+ 
 ### Approaches: Cosine Similarity
 
 1. Transform documents into vectors.
