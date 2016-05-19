@@ -28,21 +28,30 @@ The web is highly repetitive.
 
 ---
 
-### Approaches : Equality or Checksums
+### Approaches
 
-Clearly works when strings are exactly the same. Fails otherwise.
-
-```clojure
-(= "The quick dog jumps over the lazy fox"
-   "The quick dog jumps over the lazy fox")
-;;=> true
-```
+- Equality or checksums
 
 ---
 
-# Approaches : Jaccard index 
+### Approaches
 
-Also known as **Jaccard similarity coefficent.**
+- Equality or checksums
+- Cosine Similarity
+
+---
+
+### Approaches
+
+- Equality or checksums
+- Cosine Similarity
+- SimHash
+
+---
+
+### Approaches : Jaccard index 
+
+AKA: **Jaccard similarity coefficent.**
 
 Tells you the similarity between two sets.
 
@@ -50,24 +59,38 @@ Need to make text into sets.
 
 ---
 
-# Approaches : Cosine Similarity
+### Approaches: Cosine Similarity
 
 > Cosine similarity is a measure of similarity between two vectors of
 > an inner product space that measures the cosine of the angle between
 > them. - Wikipedia
 
-Need to transform your documents into a vector of weights. One way of
-doing this is tf-idf (term frequency * inverse document frequency).
+---
+
+### Approaches: Cosine Similarity
+
+1. Transform documents into vectors.
 
 ---
 
-# Term Frequency
+### Approaches: Cosine Similarity
+
+1. Transform documents into vectors.
+1. Calculate the cosine of the angle between vectors.
 
 ---
 
-# Term Frequency : Most basic form
+# Vectorizing
 
-count of each word in a document.
+---
+
+# `tf-idf`
+
+---
+
+### Vectorizing: Term Frequency
+
+Most basic form:
 
 ```clojure
 (frequency (words text))
@@ -75,49 +98,113 @@ count of each word in a document.
 
 ---
 
-# Term Frequency : Less basic
+### Vectorizing: Term Frequency
 
-Adjust by max frequency in document. Adjusts for document length.
+Fancier, adjust by max frequency.
+
 
 ```clojure
 (let [tfs (frequency (words text))
-      max-f (apply max (vals tfs)]
-  (update-vs tfs (fn [x] (+ 0.5 (* 0.5 (/ x max-f)))))))
+      max-f (apply max (vals tfs))]
+  (update-vs tfs (fn [f] (+ 0.5 (* 0.5 (/ f max-f))))))
 ```
 
 ---
 
-# Inverse Document Frequency
+### Vectorizing: Inverse Document Frequency
 
-Discounts terms that appear in many of the documents.
+Terms that are common across corpus are discounted
 
 ```clojure
 (defn idf [term texts]
   (Math/log (/ (count texts)
-               (count (filter #(.contains % term)
+               (count (filter #(string/includes? % term)
                               texts)))))
 ```
 
 ---
 
-# Term frequency-Inverse document frequency
+### Vectorizing: tf-idf
 
-Multiply the term frequency by the inverse document frequency for a term.
-
----
-
-# Approaches : Cosine Similarity
-
-You've transformed your documents into vectors. Now take the cosine similarity 
+Multiply term frequence by inverse document frequency
 
 ---
 
-# Cosine Similarity : Downsides
+### Approaches: Cosine Similarity
 
-- Depending on your vectorization step you might need to inspect the
-  whole corpus every time
+
+```clojure
+(defn text-similarity
+  [text-a text-b]
+  (let [tf-a (term-frequency text-a)
+        tf-b (term-frequency text-b)]
+    (/ (dot-product tf-a tf-b)
+       (* (Math/sqrt (reduce + (map square (vals tf-a))))
+          (Math/sqrt (reduce + (map square (vals tf-b))))))))
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
+;; 1.0
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
+;; 1.0
+
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown canine jumps over the brown fox")
+;; 0.9090909090909091
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
+;; 1.0
+
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown canine jumps over the brown fox")
+;; 0.9090909090909091
+
+(text-similarity "The brown fox jumps quick over the sly wolf"
+                 "The quick brown canine jumps over the brown fox")
+;; 0.8040302522073697
+```
+
+---
+
+### Cosine Similarity: Downsides
+
+- Vectorization step might depend on whole corpus
+
+---
+
+### Cosine Similarity: Downsides
+
+- Vectorization step might depend on whole corpus
 - Need to store vectorized form of each document
-- Have to compare each document to all other documents (n * n)
+
+---
+
+### Cosine Similarity: Downsides
+
+- Vectorization step might depend on whole corpus
+- Need to store vectorized form of each document
+- Comparison step is O(n^2)
 
 ---
 
