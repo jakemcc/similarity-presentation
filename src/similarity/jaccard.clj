@@ -10,31 +10,26 @@
     (/ (- count-union count-intersection)
        count-union)))
 
-(defn jaccard-similarity [a b]
+(defn similarity [a b]
   (- 1.0 (jaccard-distance a b)))
-
-
-
-
-
 
 
 (comment
   ;; the same
-  (jaccard-similarity #{1 2 3 4 5 6 7 8 9 10}
-                      #{1 2 3 4 5 6 7 8 9 10})
+  (similarity #{1 2 3 4 5 6 7 8 9 10}
+              #{1 2 3 4 5 6 7 8 9 10})
 
   ;; one less in second set
-  (jaccard-similarity #{1 2 3 4 5 6 7 8 9}
-                      #{1 2 3 4 5 6 7 8 9 10})
+  (similarity #{1 2 3 4 5 6 7 8 9}
+              #{1 2 3 4 5 6 7 8 9 10})
 
   ;; add one 
-  (jaccard-similarity #{1 2 3 4 5 6 7 8 9 10}
-                      #{1 2 3 4 5 6 7 8 9 10 11})
+  (similarity #{1 2 3 4 5 6 7 8 9 10}
+              #{1 2 3 4 5 6 7 8 9 10 11})
 
   ;; completely different
-  (jaccard-similarity #{1 2 3 4 5 6 7 8 9 10}
-                      #{11 12 13 14})
+  (similarity #{1 2 3 4 5 6 7 8 9 10}
+              #{11 12 13 14})
   )
 
 
@@ -44,9 +39,12 @@
 
 
 
+
+
+
 (defn text-similarity [string-a string-b]
-  (jaccard-similarity (set (words string-a))
-                      (set (words string-b))))
+  (similarity (set (words string-a))
+              (set (words string-b))))
 
 (comment
   (text-similarity "Hello" "Hello")
@@ -68,8 +66,8 @@
 
 
 (defn text-similarity2 [string-a string-b]
-  (jaccard-similarity (set (partition-all 2 1 (words string-a)))
-                      (set (partition-all 2 1 (words string-b)))))
+  (similarity (set (partition-all 2 1 (words string-a)))
+              (set (partition-all 2 1 (words string-b)))))
 
 
 

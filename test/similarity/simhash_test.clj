@@ -1,6 +1,7 @@
 (ns similarity.simhash-test
-  (:require[similarity.simhash :refer :all]
-           [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [similarity.core :as c]
+            [similarity.simhash :refer :all]))
 
 (defn bit-vector [& args]
   (vec (concat (repeat (- 128 (count args)) 0) args)))
@@ -15,3 +16,12 @@
          (similarity (bit-vector 1 1 1) (bit-vector 0 0 0))))
   (is (= 0.75 (similarity (apply bit-vector (repeat 32 1))
                           (bit-vector 0)))))
+
+
+(deftest show-combination
+  (is (= 1.0 (similarity (-> "This is a sentence"
+                             (c/words)
+                             (simhash))
+                         (-> "This is a sentence"
+                             (c/words)
+                             (simhash))))))
