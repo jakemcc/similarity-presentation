@@ -18,10 +18,22 @@
                           (bit-vector 0)))))
 
 
-(deftest show-combination
-  (is (= 1.0 (similarity (-> "This is a sentence"
-                             (c/words)
-                             (simhash))
-                         (-> "This is a sentence"
-                             (c/words)
-                             (simhash))))))
+(deftest test-text-similarity
+  (is (= 1.0 (text-similarity "This is a sentence"
+                              "This is a sentence"))))
+
+
+(deftest test-image-similarity
+  (is (= 1.0 (image-similarity "images/jake-glasses-fence-fixed.png"
+                               "images/jake-glasses-fence-fixed.png")))
+  
+  (is (< 0.80
+         (image-similarity "images/jake-glasses-fence-fixed.png"
+                           "images/jake-glasses-fence.png")
+         0.98))
+  
+  (is (not= 1.0 (image-similarity "images/jake-glasses-fence-fixed.png"
+                                  "images/water.jpg"))))
+
+
+
