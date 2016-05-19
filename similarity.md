@@ -322,7 +322,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
 1. For each bit in each hash  
-   `if bit[i] >= 0 then vec[i]++ otherwise vec[i]--`
+   `if bit[i] == 0 then vec[i]++ otherwise vec[i]--`
 
 ---
 
@@ -332,7 +332,7 @@ Just storing a hash actually solves **Goal 2: Store less data** as well
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
 1. For each bit in each hash  
-   `if bit[i] >= 0 then vec[i]++ otherwise vec[i]--`
+   `if bit[i] == 1 then vec[i]++ otherwise vec[i]--`
 1. For each element in vec:  
    `if elem >= 0 then 1 otherwise 0`
 
