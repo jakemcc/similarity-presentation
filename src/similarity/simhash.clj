@@ -190,7 +190,7 @@
                                 (vec (repeat n 0))
                                 hashes)]
     (for [x combined-hashes]
-      (if (<= 0 x)
+      (if (>= x 0)
         1
         0))))
 

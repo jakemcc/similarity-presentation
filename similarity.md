@@ -4,7 +4,7 @@ author:
   twitter: jakemcc
   url: https://jakemccrary.com
   email: jake@jakemccrary.com
-<!-- style: basic-style.css -->
+style: ./similarity.css
 controls: false
 output: presentation.html
 
@@ -45,7 +45,7 @@ The web is highly repetitive.
 
 - Equality or checksums
 - Cosine Similarity
-- SimHash
+- ???
 
 ---
 
@@ -150,6 +150,15 @@ Multiply term frequence by inverse document frequency
 ```clojure
 (text-similarity "The quick brown dog jumps over the brown fox"
                  "The quick brown dog jumps over the brown fox")
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
 ;; 1.0
 ```
 
@@ -164,7 +173,37 @@ Multiply term frequence by inverse document frequency
 
 (text-similarity "The quick brown dog jumps over the brown fox"
                  "The quick brown canine jumps over the brown fox")
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
+;; 1.0
+
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown canine jumps over the brown fox")
 ;; 0.9090909090909091
+```
+
+---
+
+### Approaches: Cosine Similarity
+
+```clojure
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown dog jumps over the brown fox")
+;; 1.0
+
+(text-similarity "The quick brown dog jumps over the brown fox"
+                 "The quick brown canine jumps over the brown fox")
+;; 0.9090909090909091
+
+(text-similarity "The brown fox jumps quick over the sly wolf"
+                 "The quick brown canine jumps over the brown fox")
 ```
 
 ---
@@ -204,89 +243,199 @@ Multiply term frequence by inverse document frequency
 
 - Vectorization step might depend on whole corpus
 - Need to store vectorized form of each document
-- Comparison step is O(n^2)
+- Comparison step is O(n<sup>2</sup>)
 
 ---
 
-# Goals of new approach
+### Goals of new approach
 
-1. New documents don't require recalculation of previous work (so no idf)
-2. Store less data (no tf-idf per document)
-3. Don't compare each document to all other documents
+1. New documents don't require recalculation of previous work
+1. Store less data
+1. Comparison step is better than O(n<sup>2</sup>)
 
 ---
 
-# Goal 1: No recalulation
+### Goal 1: No recalulation
 
-- [Locality Senstive Hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing) is a type of hashing
-  where similar items hash to nearly the same value.
-- Can think of it as maximizing collisions.
-- [SimHash](http://www.wwwconference.org/www2007/papers/paper215.pdf) is one specific LSH.
-- Just storing a hash actuall solves *Goal 2: Store less data* as well.
+---
+
+### Goal 1: No recalulation
+
+[Locality Sensitive Hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing)
+
+---
+
+### Goal 1: No recalulation
+
+Just storing a hash actually solves **Goal 2: Store less data** as well
 
 ---
 
 # SimHash
 
-- Created by Moses Charikar -
-  [Similarity estimation techniques from rounding algorithrms](https://dl.acm.org/citation.cfm?doid=509907.509965)
+---
+
+### SimHash
+
+- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
+  by Moses Charikar
+
+
+---
+
+### SimHash
+
+- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf)
+  by Moses Charikar
+- Designed to approximate the cosine distance between vectors!
+
+---
+
+### SimHash
+
+- [Similarity estimation techniques from rounding algorithrms](http://www.cs.princeton.edu/courses/archive/spring04/cos598B/bib/CharikarEstim.pdf) by Moses Charikar
 - Designed to approximate the cosine distance between vectors!
 - Shown to be useful for near-duplicate detection
-  [Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+  [Detecting Near-Duplicates for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
 
 ---
 
-# SimHash Algorithm (as applied to articles)
 
-1. Create a `f` elements sized vector initialzed to all `0`
+### SimHash Algorithm
+
+1. Create a `f` sized vector initialzed to all `0`
+
+---
+
+### SimHash Algorithm
+
+1. Create a `f` sized vector initialzed to all `0`
+1. Break article into set of features
+
+---
+
+### SimHash Algorithm
+
+1. Create a `f` sized vector initialzed to all `0`
 1. Break article into set of features
 1. Hash each feature into `f` bit sized value
-1. For each hash: 
-   if bit `i` >= 0: then vector[i]++, otherwise vector[i]--
-1. Iterate elements in vector. if vector[i] >= 0, final hash bit `i`
-   is `1`; otherwise bit `i` is `0`
 
 ---
 
-# Comparing SimHashes
+### SimHash Algorithm
 
-1. xor two f-bit simhashes together
-1. Count number of `1` result from above step.
-1. Divide by number of bits, `f` to get dissimilarity
+1. Create a `f` sized vector initialzed to all `0`
+1. Break article into set of features
+1. Hash each feature into `f` bit sized value
+1. For each bit in each hash  
+   `if bit[i] >= 0 then vec[i]++ otherwise vec[i]--`
+
+---
+
+### SimHash Algorithm
+
+1. Create a `f` sized vector initialzed to all `0`
+1. Break article into set of features
+1. Hash each feature into `f` bit sized value
+1. For each bit in each hash  
+   `if bit[i] >= 0 then vec[i]++ otherwise vec[i]--`
+1. For each element in vec:  
+   `if elem >= 0 then 1 otherwise 0`
+
+-- larger-code
+
+### SimHash Algorithm: Result
+
+```
+1001101011
+```
+
+---
+
+### Comparing SimHashes
+
+1. xor simhashes
+
+---
+
+### Comparing SimHashes
+
+1. xor simhashes
+1. Count the number of bits set to `1` in xor result
+
+---
+
+### Comparing SimHashes
+
+1. xor simhashes
+1. Count the number of bits set to `1` in xor result
+1. Divide by number of bits, `f`, to get dissimilarity
+
+---
+
+### Comparing SimHashes
+
+1. xor simhashes
+1. Count the number of bits set to `1` in xor result
+1. Divide by number of bits, `f`, to get dissimilarity
 1. 1.0 - dissimilarity = similarity
 
----
+-- larger-code
 
-# Example
+### Example
 
-10 bit simhashes
 ```
 1001101101 xor
-1001101011
-----------
-0000000110
+1001101011 
+```
 
-1 - (2 / 10) = 0.80 similar
+-- larger-code
+
+### Example
+
+```
+1001101101 xor
+1001101011 
+==========
+0000000110
+```
+
+-- larger-code
+
+### Example
+
+```
+1001101101 xor
+1001101011 
+==========
+0000000110
+```
+
+```
+1 - (2 / 10) = 0.8 similar
 ```
 
 ---
 
-# Goal 3: Don't compare single document to all other documents
 
-See
-[Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
-and [Blog post](http://matpalm.com/resemblance/simhash/)
+### Goal 3: Don't compare single document to all other documents
+
+---
+
+### Goal 3: Don't compare single document to all other documents
 
 **Summary**: Take advantage of manipulating bits of hashes and sorting
 to minimize comparisons.
 
+See
+[Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+and [blog post](http://matpalm.com/resemblance/simhash/)
+
 ---
 
-# Example
+### Example
 
-Cherry picked example: Two articles tagged as 79% similar.
-
-https://app.lumanu.com/?gs=5d3318be1c7397b7db415af8186ecb6c2fc037a0&gs=9a69de1b1d232462d0327bb1c3670a2dd0199576
-
-
+Cherry picked example:
+[Two articles](https://app.lumanu.com/?gs=5d3318be1c7397b7db415af8186ecb6c2fc037a0&gs=9a69de1b1d232462d0327bb1c3670a2dd0199576)
+tagged as 79% similar.
 
