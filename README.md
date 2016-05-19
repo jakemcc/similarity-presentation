@@ -3,7 +3,9 @@
 Presentation and some supporting code for a presentation I gave on
 text for similarity.
 
-## Building
+[View it here](http://jake.in/similarity-presentation/presentation.html#1)
+
+## Development
 
 Presentation uses [cleaver](https://github.com/jdan/cleaver) for
 generating the presentation.
@@ -11,8 +13,6 @@ generating the presentation.
 `bin/watch` watches the `similarity.md` and builds `presentation.html` as changes happen.
 
 `bin/build` builds `presentation.html` once.
-
-## Viewing
 
 `python -m SimpleHTTPServer` and then open [this](http://localhost:8000/presentation.html).
 
