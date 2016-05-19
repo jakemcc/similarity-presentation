@@ -24,7 +24,7 @@ Clearly works when strings are exactly the same. Fails otherwise.
 
 # Approaches : Jaccard index 
 
-Also known as Jaccard similarity coefficent.
+Also known as **Jaccard similarity coefficent.**
 
 Tells you the similarity between two sets.
 
@@ -91,7 +91,7 @@ You've transformed your documents into vectors. Now take the cosine similarity
 
 1. New documents don't require recalculation of previous work (so no idf)
 2. Store less data (no tf-idf per document)
-3. Don't need to compare each document to all other documents
+3. Don't compare each document to all other documents
 
 # Goal 1: No recalulation
 
@@ -105,6 +105,7 @@ You've transformed your documents into vectors. Now take the cosine similarity
 
 - Created by Moses Charikar -
   [Similarity estimation techniques from rounding algorithrms](https://dl.acm.org/citation.cfm?doid=509907.509965)
+- Designed to approximate the cosine distance between vectors!
 - Shown to be useful for near-duplicate detection
   [Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
 
@@ -137,7 +138,20 @@ You've transformed your documents into vectors. Now take the cosine similarity
 1 - (2 / 10) = 0.80 similar
 ```
 
+# Goal 3: Don't compare single document to all other documents
 
-# Simhash
+See
+[Detecting Near-Duplictes for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
+and [Blog post](http://matpalm.com/resemblance/simhash/)
 
-http://www.wwwconference.org/www2007/papers/paper215.pdf
+**Summary**: Take advantage of manipulating bits of hashes and sorting
+to minimize comparisons.
+
+# Example
+
+Cherry picked example: Two articles tagged as 79% similar.
+
+https://app.lumanu.com/?gs=5d3318be1c7397b7db415af8186ecb6c2fc037a0&gs=9a69de1b1d232462d0327bb1c3670a2dd0199576
+
+
+
