@@ -5,7 +5,7 @@ author:
   url: https://jakemccrary.com
   email: jake@jakemccrary.com
 style: ./similarity.css
-controls: false
+<!-- controls: false -->
 output: presentation.html
 
 ---
@@ -425,11 +425,5 @@ See
 [Detecting Near-Duplicates for Web Crawling](http://www.wwwconference.org/www2007/papers/paper215.pdf)
 and [blog post](http://matpalm.com/resemblance/simhash/)
 
----
 
-### Example
-
-Cherry picked example:
-[Two articles](https://app.lumanu.com/?gs=5d3318be1c7397b7db415af8186ecb6c2fc037a0&gs=9a69de1b1d232462d0327bb1c3670a2dd0199576)
-tagged as 79% similar.
 
